@@ -10,32 +10,29 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div id="result">
-        <p id="resultVal"></p>
-    </div>
-    <div id="digits">
-        <button value="1">1</button>
-        <button value="2">2</button>
-        <button value="3">3</button>
-        <button value="4">4</button>
-        <button value="5">5</button>
-        <button value="6">6</button>
-        <button value="7">7</button>
-        <button value="8">8</button>
-        <button value="9">9</button>
-        <button value="0">0</button>
-    </div>
-    <div id="operators">
-        <button value="add">+</button>
-        <button value="subtract">-</button>
-        <button value="multiply">*</button>
-        <button value="divide">/</button>
-    </div>
-    <div id="equals">
-        <button value="=">=</button>
-    </div>
-    <div id="clear">
-        <button id="clearBtn">clear</button>
+    <div class="calculator">
+        <div class="result">
+            <p id="resultVal"></p>
+        </div>
+        <div id="keys">
+            <button class="bttn" id="clearBttn">AC</button>
+            <button class="bttn operator" value="divide">/</button>
+            <button class="bttn input" value="7">7</button>
+            <button class="bttn input" value="8">8</button>
+            <button class="bttn input" value="9">9</button>
+            <button class="bttn operator" value="multiply">*</button>
+            <button class="bttn input" value="4">4</button>
+            <button class="bttn input" value="5">5</button>
+            <button class="bttn input" value="6">6</button>
+            <button class="bttn operator" value="subtract">-</button>
+            <button class="bttn input" value="1">1</button>
+            <button class="bttn input" value="2">2</button>
+            <button class="bttn input" value="3">3</button>
+            <button class="bttn operator" value="add">+</button>
+            <button class="bttn input" id="zeroBttn" value="0">0</button>
+            <button class="bttn input" value=".">.</button>
+            <button class="bttn" id="equalsBttn" value="=">=</button>
+        </div>
     </div>
 </body>
 </html>

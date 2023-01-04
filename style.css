@@ -1,6 +1,77 @@
+.calculator {
+    display: grid;
+    height: 600px;
+    width: 400px;
+    grid-template-rows: 100px 1fr;
+    grid-template-columns: 1fr;
+    background-color: #1C1C1C;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #result {
-    background-color: grey;
-    width: 100px;
-    height: 20px;
-    margin-bottom: 5px;;
+    /* display: flex; */
+    
+    margin-bottom: 5px;
+}
+
+#resultVal {
+    color: white;
+    font-size: 35px;
+}
+
+#keys {
+    display: grid;
+    grid-template-rows : repeat(5,1fr);
+    grid-template-columns: repeat(4,1fr);
+}
+
+#clearBttn {
+    color: black;
+    background-color: #D4D4D2;
+    border-radius: 20px;
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+#clearBttn:active {
+    background-color: white;
+    transition: ease;
+}
+
+#zeroBttn {
+    border-radius: 20px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.bttn {
+    border-radius: 50%;
+    margin: 10px;
+    border: none;
+    font-size: 25px;
+}
+
+.bttn:active {
+    background-color: #D4D4D2;
+}
+
+.operator, #equalsBttn {
+    color: white;
+    background-color: #FF9500;
+}
+
+.operator:focus {
+    background-color: white;
+    color: #FF9500;
+}
+
+#equalsBttn:active {
+    background-color: white;
+    color: #FF9500;
+    transition: ease;
+}
+
+.input {
+    color: white;
+    background-color: #505050;
 }
