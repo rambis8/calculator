@@ -15,10 +15,6 @@ function divide(num1, num2) {
 }
 
 function operate(operator, num1, num2) {
-    console.log('in operate: ')
-    console.log('operator: ' + operator)
-    console.log('num1: ' + num1)
-    console.log('num2: ' + num2)
     let result = 0;
     switch (operator) {
         case 'add': result = add(num1, num2); break;
@@ -26,36 +22,34 @@ function operate(operator, num1, num2) {
         case 'multiply': result = multiply(num1, num2); break;
         case 'divide': result = divide(num1, num2); break;
     }
-    currentCalculatedValue = result;
-    displayBox.innerHTML = result;
+    currentCalculatedValue = Math.round(result * 100000000) / 100000000;
+    displayBox.innerHTML = currentCalculatedValue;
 }
 
-let currentSelectedNum = '';
-let currentCalculatedValue = '';
-let num1;
-let num2;
-let operator;
+let currentSelectedNum, currentCalculatedValue = '';
+let num1, num2, operator;
 let displayBox = document.getElementById('resultVal');
 
-// selects all digit buttons
-let digits = document.querySelectorAll('.bttn.input');
-// select all operator buttons
-let operators = document.querySelectorAll('.bttn.operator');
+const digitButtons = document.querySelectorAll('.bttn.input');
+const operatorButtons = document.querySelectorAll('.bttn.operator');
+const dotButton = document.getElementById('dotBttn');
 
 // add eventListeners to the digits to display them when they are clicked and handle functionality
-digits.forEach(digitButton => {
+digitButtons.forEach(digitButton => {
     digitButton.addEventListener(
-        'click', function() {
-            console.log('button clicked')
-            console.log('clicked: ' + digitButton.value);
+        'click', (e) => {
             currentSelectedNum += digitButton.value;
             displayBox.innerHTML = currentSelectedNum;
 })});
 
 // add eventListeners to the operators
-operators.forEach(operatorButton => {
-    operatorButton.addEventListener('click', function() {
-        console.log('clicked operator: ' + operatorButton.value);
+operatorButtons.forEach(operatorButton => {
+    operatorButton.addEventListener('click', (e) => {
+        dotButton.disabled = false;
+        if (operator) {
+            num2 = currentSelectedNum;
+            operate(operator, +num1, +num2);
+        }
         operator = operatorButton.value;
         if (currentCalculatedValue) {
             num1 = currentCalculatedValue;
@@ -66,14 +60,22 @@ operators.forEach(operatorButton => {
     })
 })
 
+// Disable the . button when it has been used once
+dotButton.addEventListener('click', (e) => {
+    dotButton.disabled = true;
+})
+
 // EQUALS
-document.getElementById('equalsBttn').addEventListener('click', function() {
+document.getElementById('equalsBttn').addEventListener('click', (e) => {
+    dotButton.disabled = false;
+    if (!num1) { return; }
     num2 = currentSelectedNum;
     operate(operator, +num1, +num2);
 })
 
 // clear
-document.getElementById('clearBttn').addEventListener('click', function() {
+document.getElementById('clearBttn').addEventListener('click', (e) => {
+    dotButton.disabled = false;
     currentSelectedNum = '';
     num1 = '';
     num2 = '';
