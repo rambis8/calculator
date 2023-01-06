@@ -3,10 +3,12 @@ let currentCalculatedValue = '';
 let num1, num2, operator;
 let displayBox = document.getElementById('resultVal');
 
+// Get all UI elements
 const digitButtons = document.querySelectorAll('.bttn.input');
 const operatorButtons = document.querySelectorAll('.bttn.operator');
 const dotButton = document.getElementById('dotBttn');
 
+// Math functions
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -23,6 +25,7 @@ function divide(num1, num2) {
     return num1 / num2;
 }
 
+// Operate logic
 function operate(operator, num1, num2) {
     let result = 0;
     switch (operator) {
@@ -35,12 +38,15 @@ function operate(operator, num1, num2) {
     displayBox.innerHTML = currentCalculatedValue;
 }
 
+// Adds digit when clicked or key pressed
 function addDigit(num) {
     currentSelectedNum += num;
     displayBox.innerHTML = currentSelectedNum;
 }
 
+// Adds operator when clicked or key pressed
 function addOperator(op) {
+    dotButton.disabled = false;
     if (operator) {
         num2 = currentSelectedNum;
         operate(operator, +num1, +num2);
@@ -54,23 +60,35 @@ function addOperator(op) {
     currentSelectedNum = '';
 }
 
+// Evaluate functionality when equals clicked or pressed
 function evaluate() {
+    dotButton.disabled = false;
     if (!num1) { return; }
     num2 = currentSelectedNum;
     operate(operator, +num1, +num2);
 }
 
-// add eventListeners to the digits to display them when they are clicked and handle functionality
+// Clears all previous entries
+function clear() {
+    currentSelectedNum = '';
+    num1 = '';
+    num2 = '';
+    operator = '';
+    displayValue = '';
+    displayBox.innerHTML = displayValue;
+    currentCalculatedValue = '';
+}
+
+// Add eventlisteners for all digit buttons
 digitButtons.forEach(digitButton => {
     digitButton.addEventListener(
         'click', (e) => {
             addDigit(digitButton.value);
 })});
 
-// add eventListeners to the operators
+// Add eventlisteners for all operator buttons
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener('click', (e) => {
-        dotButton.disabled = false;
         addOperator(operatorButton.value);
     })
 })
@@ -80,22 +98,15 @@ dotButton.addEventListener('click', (e) => {
     dotButton.disabled = true;
 })
 
-// EQUALS
+// Add eventlistener for the equals button
 document.getElementById('equalsBttn').addEventListener('click', (e) => {
-    dotButton.disabled = false;
     evaluate();
 })
 
-// clear
+// Add eventlistener for the clear button
 document.getElementById('clearBttn').addEventListener('click', (e) => {
     dotButton.disabled = false;
-    currentSelectedNum = '';
-    num1 = '';
-    num2 = '';
-    operator = '';
-    displayValue = '';
-    displayBox.innerHTML = displayValue;
-    currentCalculatedValue = '';
+    clear();
 })
 
 // Keyboard support
@@ -110,6 +121,14 @@ document.addEventListener('keydown', (e) => {
     let key = parseInt(e.key);
     if (key) {
         addDigit(key);
+    }
+
+    // . support
+    if (e.key === '.') {
+        if (!dotButton.disabled) {
+            dotButton.disabled = true;
+            addDigit('.');
+        }
     }
 
     // Operators support
