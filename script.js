@@ -1,3 +1,12 @@
+let currentSelectedNum = '';
+let currentCalculatedValue = '';
+let num1, num2, operator;
+let displayBox = document.getElementById('resultVal');
+
+const digitButtons = document.querySelectorAll('.bttn.input');
+const operatorButtons = document.querySelectorAll('.bttn.operator');
+const dotButton = document.getElementById('dotBttn');
+
 function add(num1, num2) {
     return num1 + num2;
 }
@@ -26,38 +35,43 @@ function operate(operator, num1, num2) {
     displayBox.innerHTML = currentCalculatedValue;
 }
 
-let currentSelectedNum = '';
-let currentCalculatedValue = '';
-let num1, num2, operator;
-let displayBox = document.getElementById('resultVal');
+function addDigit(num) {
+    currentSelectedNum += num;
+    displayBox.innerHTML = currentSelectedNum;
+}
 
-const digitButtons = document.querySelectorAll('.bttn.input');
-const operatorButtons = document.querySelectorAll('.bttn.operator');
-const dotButton = document.getElementById('dotBttn');
+function addOperator(op) {
+    if (operator) {
+        num2 = currentSelectedNum;
+        operate(operator, +num1, +num2);
+    }
+    operator = op;
+    if (currentCalculatedValue) {
+        num1 = currentCalculatedValue;
+    } else {
+        num1 = currentSelectedNum;
+    }
+    currentSelectedNum = '';
+}
+
+function evaluate() {
+    if (!num1) { return; }
+    num2 = currentSelectedNum;
+    operate(operator, +num1, +num2);
+}
 
 // add eventListeners to the digits to display them when they are clicked and handle functionality
 digitButtons.forEach(digitButton => {
     digitButton.addEventListener(
         'click', (e) => {
-            currentSelectedNum += digitButton.value;
-            displayBox.innerHTML = currentSelectedNum;
+            addDigit(digitButton.value);
 })});
 
 // add eventListeners to the operators
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener('click', (e) => {
         dotButton.disabled = false;
-        if (operator) {
-            num2 = currentSelectedNum;
-            operate(operator, +num1, +num2);
-        }
-        operator = operatorButton.value;
-        if (currentCalculatedValue) {
-            num1 = currentCalculatedValue;
-        } else {
-            num1 = currentSelectedNum;
-        }
-        currentSelectedNum = '';
+        addOperator(operatorButton.value);
     })
 })
 
@@ -69,9 +83,7 @@ dotButton.addEventListener('click', (e) => {
 // EQUALS
 document.getElementById('equalsBttn').addEventListener('click', (e) => {
     dotButton.disabled = false;
-    if (!num1) { return; }
-    num2 = currentSelectedNum;
-    operate(operator, +num1, +num2);
+    evaluate();
 })
 
 // clear
@@ -86,11 +98,36 @@ document.getElementById('clearBttn').addEventListener('click', (e) => {
     currentCalculatedValue = '';
 })
 
-// Add event listener for the backspace key
+// Keyboard support
 document.addEventListener('keydown', (e) => {
+    // Backspace support
     if (e.key == 'Backspace') {
         let copyVal = currentSelectedNum;
         currentSelectedNum = copyVal.slice(0, -1);
         displayBox.innerHTML = currentSelectedNum;
+    }
+    // Digits support
+    let key = parseInt(e.key);
+    if (key) {
+        addDigit(key);
+    }
+
+    // Operators support
+    if (e.key === '/') {
+        addOperator('divide');
+    }    
+    if (e.key === '-') {
+        addOperator('subtract');
+    }    
+    if (e.key === '+') {
+        addOperator('add');
+    }
+    if (e.key === '*') {
+        addOperator('multiply');
+    }
+
+    // Equals support
+    if (e.key === '=') {
+        evaluate();
     }
 })
