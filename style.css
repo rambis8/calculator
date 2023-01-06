@@ -1,3 +1,8 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
 .calculator {
     display: grid;
     height: 600px;
@@ -7,6 +12,10 @@
     background-color: #1C1C1C;
     font-family: Arial, Helvetica, sans-serif;
     border-radius: 25px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 20px;
 }
 
 .result {

@@ -26,7 +26,8 @@ function operate(operator, num1, num2) {
     displayBox.innerHTML = currentCalculatedValue;
 }
 
-let currentSelectedNum, currentCalculatedValue = '';
+let currentSelectedNum = '';
+let currentCalculatedValue = '';
 let num1, num2, operator;
 let displayBox = document.getElementById('resultVal');
 
@@ -83,4 +84,13 @@ document.getElementById('clearBttn').addEventListener('click', (e) => {
     displayValue = '';
     displayBox.innerHTML = displayValue;
     currentCalculatedValue = '';
+})
+
+// Add event listener for the backspace key
+document.addEventListener('keydown', (e) => {
+    if (e.key == 'Backspace') {
+        let copyVal = currentSelectedNum;
+        currentSelectedNum = copyVal.slice(0, -1);
+        displayBox.innerHTML = currentSelectedNum;
+    }
 })
